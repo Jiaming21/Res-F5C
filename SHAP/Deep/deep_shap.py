@@ -1,66 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
-
-
-#import torch
-#import torch.nn as nn
-#import torch.optim as optim
-#import torchvision
-#import torchvision.transforms as transforms
-#import shap
-#
-#torch.manual_seed(0)
-#
-#class SimpleNet(nn.Module):
-#    def __init__(self):
-#        super(SimpleNet, self).__init__()
-#        self.fc1 = nn.Linear(28*28, 500)
-#        self.fc2 = nn.Linear(500, 10)
-#
-#    def forward(self, x):
-#        x = x.view(-1, 28*28)
-#        x = torch.relu(self.fc1(x))
-#        x = self.fc2(x)
-#        return x
-#
-#transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
-#
-#train_dataset = torchvision.datasets.FashionMNIST(root='./data', train=True, download=True, transform=transform)
-#train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=32, shuffle=True)
-#
-#model = SimpleNet()
-#criterion = nn.CrossEntropyLoss()
-#optimizer = optim.Adam(model.parameters(), lr=0.001)
-#
-#for epoch in range(5):  # loop over the dataset multiple times
-#    for inputs, labels in train_loader:
-#        optimizer.zero_grad()
-#        outputs = model(inputs)
-#        loss = criterion(outputs, labels)
-#        loss.backward()
-#        optimizer.step()
-#
-#torch.save(model.state_dict(), "model.pth")
-#
-#loaded_model = SimpleNet()
-#loaded_model.load_state_dict(torch.load("model.pth"))
-#loaded_model.eval()
-#
-#background = train_dataset.data[:100].float().view(-1, 28*28) / 255.0  
-#explainer = shap.DeepExplainer(loaded_model, background)
-#test_data = train_dataset.data[100:110].float().view(-1, 28*28) / 255.0  
-#shap_values = explainer.shap_values(test_data)
-#
-## 5. 使用shap.summary_plot
-#shap.summary_plot(shap_values, test_data.detach().numpy())
-#
-
-
-# In[ ]:
-
-
 import torch.nn as nn
 import torch.optim as optim
 import torch
@@ -142,17 +82,11 @@ for epoch in range(num_epochs):
 
 import shap
 
-# Create a SHAP explainer object
 explainer = shap.GradientExplainer(model, X_train[:30]) # using a subset for efficiency
 
-# Compute SHAP values for a sample of the test set
 shap_values = explainer.shap_values(X_train[:30])
 shap_values = np.squeeze(shap_values, axis=1)
 
-print(shap_values.shape)
-print(X_train[:30].squeeze(1).shape)
-
-# Plot the SHAP values
 fig1 = shap.summary_plot(shap_values, X_train[:30].squeeze(1), feature_names=pos.columns, show=False)
 plt.savefig('fig1.pdf', bbox_inches='tight', format='pdf')
 plt.close(fig1) 
@@ -161,8 +95,6 @@ fig2 = shap.summary_plot(shap_values, X_train[:30].squeeze(1), feature_names=pos
 plt.savefig('fig2.pdf', bbox_inches='tight', format='pdf')
 plt.close(fig2) 
 
-
-# In[ ]:
 
 
 
