@@ -7,16 +7,10 @@ pos_C <- readRDS("/Users/jiaming/Desktop/f5c/f5c_positive_all.rds")
 same_transcript <- subsetByOverlaps(transcripts(txdb),pos_C)
 neg_C <- m6ALogisticModel::sample_sequence("C",same_transcript,Scerevisiae,Fixed = T)
 neg_C <- subsetByOverlaps(neg_C,exons(txdb))
-#table(DNAStringSet(Views(Scerevisiae,a)))
 olp <- findOverlaps(neg_C,pos_C,ignore.strand= T)
 neg_C <- neg_C[-queryHits(olp)]
 neg_C <- neg_C[sample(seq_along(neg_C),10*length(pos_C))]
 rm(olp,same_transcript)
-
-#same_transcript <- subsetByOverlaps(transcripts(txdb),pos_C)
-#neg_C <- sample_sequence("C",same_transcript,bsgenome,Fixed = T) 
-#index <- sample(c(1:419285),1892)
-#neg_C <- neg_C[index,]
 
 GFgenreation_f5c <- function(data){
   analysis_data <- data
