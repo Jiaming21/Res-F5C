@@ -11,10 +11,8 @@
 #import torchvision.transforms as transforms
 #import shap
 #
-## 设置随机种子以确保可重复性
 #torch.manual_seed(0)
 #
-## 1. 定义并训练神经网络
 #class SimpleNet(nn.Module):
 #    def __init__(self):
 #        super(SimpleNet, self).__init__()
@@ -44,18 +42,15 @@
 #        loss.backward()
 #        optimizer.step()
 #
-## 2. 保存模型
 #torch.save(model.state_dict(), "model.pth")
 #
-## 3. 加载保存的权重
 #loaded_model = SimpleNet()
 #loaded_model.load_state_dict(torch.load("model.pth"))
 #loaded_model.eval()
 #
-## 4. 使用shap.DeepExplainer计算shap值
-#background = train_dataset.data[:100].float().view(-1, 28*28) / 255.0  # 使用100个训练样本作为背景
+#background = train_dataset.data[:100].float().view(-1, 28*28) / 255.0  
 #explainer = shap.DeepExplainer(loaded_model, background)
-#test_data = train_dataset.data[100:110].float().view(-1, 28*28) / 255.0  # 选择10个样本进行SHAP解释
+#test_data = train_dataset.data[100:110].float().view(-1, 28*28) / 255.0  
 #shap_values = explainer.shap_values(test_data)
 #
 ## 5. 使用shap.summary_plot
